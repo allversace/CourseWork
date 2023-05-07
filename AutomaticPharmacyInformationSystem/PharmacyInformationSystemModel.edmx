@@ -1,0 +1,456 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище PharmacyInformationSystemModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="account">
+          <Key>
+            <PropertyRef Name="login" />
+          </Key>
+          <Property Name="login" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="id_role" Type="int" Nullable="false" />
+          <Property Name="second_name" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="first_name" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="surname" Type="varchar" MaxLength="25" />
+          <Property Name="telephone" Type="char" MaxLength="13" />
+        </EntityType>
+        <EntityType Name="indent">
+          <Key>
+            <PropertyRef Name="id_indent" />
+          </Key>
+          <Property Name="id_indent" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="login" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="data_indent" Type="date" />
+          <Property Name="data_delivery" Type="date" />
+          <Property Name="id_status_indent" Type="int" />
+          <Property Name="total_sum" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="order_details">
+          <Key>
+            <PropertyRef Name="id_indent" />
+            <PropertyRef Name="id_preparation" />
+          </Key>
+          <Property Name="id_indent" Type="int" Nullable="false" />
+          <Property Name="id_preparation" Type="int" Nullable="false" />
+          <Property Name="amount" Type="int" />
+        </EntityType>
+        <EntityType Name="preparation">
+          <Key>
+            <PropertyRef Name="id_preparation" />
+          </Key>
+          <Property Name="id_preparation" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="producer" Type="varchar" MaxLength="55" Nullable="false" />
+          <Property Name="release_form" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="drug_name" Type="varchar" MaxLength="55" Nullable="false" />
+          <Property Name="price" Type="int" Nullable="false" />
+          <Property Name="amount" Type="int" />
+          <Property Name="Photo" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="role">
+          <Key>
+            <PropertyRef Name="id_role" />
+          </Key>
+          <Property Name="id_role" Type="int" Nullable="false" />
+          <Property Name="status" Type="varchar" MaxLength="13" Nullable="false" />
+        </EntityType>
+        <EntityType Name="status_indent">
+          <Key>
+            <PropertyRef Name="id_status_indent" />
+          </Key>
+          <Property Name="id_status_indent" Type="int" Nullable="false" />
+          <Property Name="status_indent_name" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK__account__id_role__38996AB5">
+          <End Role="role" Type="Self.role" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="account" Type="Self.account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="role">
+              <PropertyRef Name="id_role" />
+            </Principal>
+            <Dependent Role="account">
+              <PropertyRef Name="id_role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__indent__id_statu__3E52440B">
+          <End Role="status_indent" Type="Self.status_indent" Multiplicity="0..1" />
+          <End Role="indent" Type="Self.indent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="status_indent">
+              <PropertyRef Name="id_status_indent" />
+            </Principal>
+            <Dependent Role="indent">
+              <PropertyRef Name="id_status_indent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__indent__login__3D5E1FD2">
+          <End Role="account" Type="Self.account" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="indent" Type="Self.indent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="account">
+              <PropertyRef Name="login" />
+            </Principal>
+            <Dependent Role="indent">
+              <PropertyRef Name="login" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__order_det__id_in__412EB0B6">
+          <End Role="indent" Type="Self.indent" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="order_details" Type="Self.order_details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="indent">
+              <PropertyRef Name="id_indent" />
+            </Principal>
+            <Dependent Role="order_details">
+              <PropertyRef Name="id_indent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__order_det__id_pr__4222D4EF">
+          <End Role="preparation" Type="Self.preparation" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="order_details" Type="Self.order_details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="preparation">
+              <PropertyRef Name="id_preparation" />
+            </Principal>
+            <Dependent Role="order_details">
+              <PropertyRef Name="id_preparation" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище PharmacyInformationSystemModelContainer">
+          <EntitySet Name="account" EntityType="Self.account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="indent" EntityType="Self.indent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="order_details" EntityType="Self.order_details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="preparation" EntityType="Self.preparation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="role" EntityType="Self.role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="status_indent" EntityType="Self.status_indent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__account__id_role__38996AB5" Association="Self.FK__account__id_role__38996AB5">
+            <End Role="role" EntitySet="role" />
+            <End Role="account" EntitySet="account" />
+          </AssociationSet>
+          <AssociationSet Name="FK__indent__id_statu__3E52440B" Association="Self.FK__indent__id_statu__3E52440B">
+            <End Role="status_indent" EntitySet="status_indent" />
+            <End Role="indent" EntitySet="indent" />
+          </AssociationSet>
+          <AssociationSet Name="FK__indent__login__3D5E1FD2" Association="Self.FK__indent__login__3D5E1FD2">
+            <End Role="account" EntitySet="account" />
+            <End Role="indent" EntitySet="indent" />
+          </AssociationSet>
+          <AssociationSet Name="FK__order_det__id_in__412EB0B6" Association="Self.FK__order_det__id_in__412EB0B6">
+            <End Role="indent" EntitySet="indent" />
+            <End Role="order_details" EntitySet="order_details" />
+          </AssociationSet>
+          <AssociationSet Name="FK__order_det__id_pr__4222D4EF" Association="Self.FK__order_det__id_pr__4222D4EF">
+            <End Role="preparation" EntitySet="preparation" />
+            <End Role="order_details" EntitySet="order_details" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PharmacyInformationSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="account">
+          <Key>
+            <PropertyRef Name="login" />
+          </Key>
+          <Property Name="login" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="id_role" Type="Int32" Nullable="false" />
+          <Property Name="second_name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="first_name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="surname" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="telephone" Type="String" MaxLength="13" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="role" Relationship="Self.FK__account__id_role__38996AB5" FromRole="account" ToRole="role" />
+          <NavigationProperty Name="indent" Relationship="Self.FK__indent__login__3D5E1FD2" FromRole="account" ToRole="indent" />
+        </EntityType>
+        <EntityType Name="indent">
+          <Key>
+            <PropertyRef Name="id_indent" />
+          </Key>
+          <Property Name="id_indent" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="login" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="data_indent" Type="DateTime" Precision="0" />
+          <Property Name="data_delivery" Type="DateTime" Precision="0" />
+          <Property Name="id_status_indent" Type="Int32" />
+          <Property Name="total_sum" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="account" Relationship="Self.FK__indent__login__3D5E1FD2" FromRole="indent" ToRole="account" />
+          <NavigationProperty Name="status_indent" Relationship="Self.FK__indent__id_statu__3E52440B" FromRole="indent" ToRole="status_indent" />
+          <NavigationProperty Name="order_details" Relationship="Self.FK__order_det__id_in__412EB0B6" FromRole="indent" ToRole="order_details" />
+        </EntityType>
+        <EntityType Name="order_details">
+          <Key>
+            <PropertyRef Name="id_indent" />
+            <PropertyRef Name="id_preparation" />
+          </Key>
+          <Property Name="id_indent" Type="Int32" Nullable="false" />
+          <Property Name="id_preparation" Type="Int32" Nullable="false" />
+          <Property Name="amount" Type="Int32" />
+          <NavigationProperty Name="indent" Relationship="Self.FK__order_det__id_in__412EB0B6" FromRole="order_details" ToRole="indent" />
+          <NavigationProperty Name="preparation" Relationship="Self.FK__order_det__id_pr__4222D4EF" FromRole="order_details" ToRole="preparation" />
+        </EntityType>
+        <EntityType Name="preparation">
+          <Key>
+            <PropertyRef Name="id_preparation" />
+          </Key>
+          <Property Name="id_preparation" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="producer" Type="String" MaxLength="55" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="release_form" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="drug_name" Type="String" MaxLength="55" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="price" Type="Int32" Nullable="false" />
+          <Property Name="amount" Type="Int32" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="order_details" Relationship="Self.FK__order_det__id_pr__4222D4EF" FromRole="preparation" ToRole="order_details" />
+        </EntityType>
+        <EntityType Name="role">
+          <Key>
+            <PropertyRef Name="id_role" />
+          </Key>
+          <Property Name="id_role" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="account" Relationship="Self.FK__account__id_role__38996AB5" FromRole="role" ToRole="account" />
+        </EntityType>
+        <EntityType Name="status_indent">
+          <Key>
+            <PropertyRef Name="id_status_indent" />
+          </Key>
+          <Property Name="id_status_indent" Type="Int32" Nullable="false" />
+          <Property Name="status_indent_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="indent" Relationship="Self.FK__indent__id_statu__3E52440B" FromRole="status_indent" ToRole="indent" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK__account__id_role__38996AB5">
+          <End Role="role" Type="Self.role" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="account" Type="Self.account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="role">
+              <PropertyRef Name="id_role" />
+            </Principal>
+            <Dependent Role="account">
+              <PropertyRef Name="id_role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__indent__login__3D5E1FD2">
+          <End Role="account" Type="Self.account" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="indent" Type="Self.indent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="account">
+              <PropertyRef Name="login" />
+            </Principal>
+            <Dependent Role="indent">
+              <PropertyRef Name="login" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__indent__id_statu__3E52440B">
+          <End Role="status_indent" Type="Self.status_indent" Multiplicity="0..1" />
+          <End Role="indent" Type="Self.indent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="status_indent">
+              <PropertyRef Name="id_status_indent" />
+            </Principal>
+            <Dependent Role="indent">
+              <PropertyRef Name="id_status_indent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__order_det__id_in__412EB0B6">
+          <End Role="indent" Type="Self.indent" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="order_details" Type="Self.order_details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="indent">
+              <PropertyRef Name="id_indent" />
+            </Principal>
+            <Dependent Role="order_details">
+              <PropertyRef Name="id_indent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__order_det__id_pr__4222D4EF">
+          <End Role="preparation" Type="Self.preparation" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="order_details" Type="Self.order_details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="preparation">
+              <PropertyRef Name="id_preparation" />
+            </Principal>
+            <Dependent Role="order_details">
+              <PropertyRef Name="id_preparation" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PharmacySystemEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="account" EntityType="Self.account" />
+          <EntitySet Name="indent" EntityType="Self.indent" />
+          <EntitySet Name="order_details" EntityType="Self.order_details" />
+          <EntitySet Name="preparation" EntityType="Self.preparation" />
+          <EntitySet Name="role" EntityType="Self.role" />
+          <EntitySet Name="status_indent" EntityType="Self.status_indent" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <AssociationSet Name="FK__account__id_role__38996AB5" Association="Self.FK__account__id_role__38996AB5">
+            <End Role="role" EntitySet="role" />
+            <End Role="account" EntitySet="account" />
+          </AssociationSet>
+          <AssociationSet Name="FK__indent__login__3D5E1FD2" Association="Self.FK__indent__login__3D5E1FD2">
+            <End Role="account" EntitySet="account" />
+            <End Role="indent" EntitySet="indent" />
+          </AssociationSet>
+          <AssociationSet Name="FK__indent__id_statu__3E52440B" Association="Self.FK__indent__id_statu__3E52440B">
+            <End Role="status_indent" EntitySet="status_indent" />
+            <End Role="indent" EntitySet="indent" />
+          </AssociationSet>
+          <AssociationSet Name="FK__order_det__id_in__412EB0B6" Association="Self.FK__order_det__id_in__412EB0B6">
+            <End Role="indent" EntitySet="indent" />
+            <End Role="order_details" EntitySet="order_details" />
+          </AssociationSet>
+          <AssociationSet Name="FK__order_det__id_pr__4222D4EF" Association="Self.FK__order_det__id_pr__4222D4EF">
+            <End Role="preparation" EntitySet="preparation" />
+            <End Role="order_details" EntitySet="order_details" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище PharmacyInformationSystemModelContainer" CdmEntityContainer="PharmacySystemEntities">
+          <EntitySetMapping Name="account">
+            <EntityTypeMapping TypeName="PharmacyInformationSystemModel.account">
+              <MappingFragment StoreEntitySet="account">
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="id_role" ColumnName="id_role" />
+                <ScalarProperty Name="second_name" ColumnName="second_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="surname" ColumnName="surname" />
+                <ScalarProperty Name="telephone" ColumnName="telephone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="indent">
+            <EntityTypeMapping TypeName="PharmacyInformationSystemModel.indent">
+              <MappingFragment StoreEntitySet="indent">
+                <ScalarProperty Name="id_indent" ColumnName="id_indent" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="data_indent" ColumnName="data_indent" />
+                <ScalarProperty Name="data_delivery" ColumnName="data_delivery" />
+                <ScalarProperty Name="id_status_indent" ColumnName="id_status_indent" />
+                <ScalarProperty Name="total_sum" ColumnName="total_sum" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="order_details">
+            <EntityTypeMapping TypeName="PharmacyInformationSystemModel.order_details">
+              <MappingFragment StoreEntitySet="order_details">
+                <ScalarProperty Name="id_indent" ColumnName="id_indent" />
+                <ScalarProperty Name="id_preparation" ColumnName="id_preparation" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="preparation">
+            <EntityTypeMapping TypeName="PharmacyInformationSystemModel.preparation">
+              <MappingFragment StoreEntitySet="preparation">
+                <ScalarProperty Name="id_preparation" ColumnName="id_preparation" />
+                <ScalarProperty Name="producer" ColumnName="producer" />
+                <ScalarProperty Name="release_form" ColumnName="release_form" />
+                <ScalarProperty Name="drug_name" ColumnName="drug_name" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="role">
+            <EntityTypeMapping TypeName="PharmacyInformationSystemModel.role">
+              <MappingFragment StoreEntitySet="role">
+                <ScalarProperty Name="id_role" ColumnName="id_role" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="status_indent">
+            <EntityTypeMapping TypeName="PharmacyInformationSystemModel.status_indent">
+              <MappingFragment StoreEntitySet="status_indent">
+                <ScalarProperty Name="id_status_indent" ColumnName="id_status_indent" />
+                <ScalarProperty Name="status_indent_name" ColumnName="status_indent_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="PharmacyInformationSystemModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

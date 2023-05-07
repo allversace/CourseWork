@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6bc1232e0c27484f90876ced8337c1de" Name="Diagram1">
+        <EntityTypeShape EntityType="PharmacyInformationSystemModel.account" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmacyInformationSystemModel.indent" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmacyInformationSystemModel.order_details" Width="1.5" PointX="7.5" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmacyInformationSystemModel.preparation" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmacyInformationSystemModel.role" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmacyInformationSystemModel.status_indent" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PharmacyInformationSystemModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="4.75" IsExpanded="true" />
+        <AssociationConnector Association="PharmacyInformationSystemModel.FK__account__id_role__38996AB5" ManuallyRouted="false" />
+        <AssociationConnector Association="PharmacyInformationSystemModel.FK__indent__login__3D5E1FD2" ManuallyRouted="false" />
+        <AssociationConnector Association="PharmacyInformationSystemModel.FK__indent__id_statu__3E52440B" ManuallyRouted="false" />
+        <AssociationConnector Association="PharmacyInformationSystemModel.FK__order_det__id_in__412EB0B6" ManuallyRouted="false" />
+        <AssociationConnector Association="PharmacyInformationSystemModel.FK__order_det__id_pr__4222D4EF" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

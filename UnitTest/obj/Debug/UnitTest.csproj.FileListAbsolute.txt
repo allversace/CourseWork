@@ -1,0 +1,6 @@
+C:\Users\artur\source\repos\AutomaticPharmacyInformationSystem\UnitTest\bin\Debug\UnitTest.dll
+C:\Users\artur\source\repos\AutomaticPharmacyInformationSystem\UnitTest\bin\Debug\UnitTest.pdb
+C:\Users\artur\source\repos\AutomaticPharmacyInformationSystem\UnitTest\obj\Debug\UnitTest.csproj.AssemblyReference.cache
+C:\Users\artur\source\repos\AutomaticPharmacyInformationSystem\UnitTest\obj\Debug\UnitTest.csproj.CoreCompileInputs.cache
+C:\Users\artur\source\repos\AutomaticPharmacyInformationSystem\UnitTest\obj\Debug\UnitTest.dll
+C:\Users\artur\source\repos\AutomaticPharmacyInformationSystem\UnitTest\obj\Debug\UnitTest.pdb
